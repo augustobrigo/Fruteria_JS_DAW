@@ -2,7 +2,9 @@ window.onload=inicio;
 let cajaFrutas=document.querySelector("#cajaFrutas");
 cajaFrutas.innerHTML="";
 let bloqueHtml=document.createElement("div");
+let bloqueCesta=document.createElement("div");
 var objeto;
+let contenedorCesta=document.querySelector("tbody");
 
 function inicio(){
     cargarContenido();
@@ -34,6 +36,16 @@ function cargarContenido(){
     xhr.send();
 }
 function anadirCesta(vector){
+    let cajaTr=document.createElement("tr");
     console.log(vector);
+    let vectorX=vector.split(",");
+    let peso=prompt("Teclea los kgs de "+vectorX[1]);
+    let calculoPrecio=peso*parseFloat(vectorX[3]);
 
+    if(peso && !isNaN(peso)){
+        bloqueCesta.innerHTML='<td>'+
+        vectorX[1]+'</td><td>'+peso+'</td><td>'+vectorX[3]+'</td><td>'+calculoPrecio+'</td>';
+    }
+    cajaTr.appendChild(bloqueCesta);
+    contenedorCesta.appendChild(cajaTr);
 }
