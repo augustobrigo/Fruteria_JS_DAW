@@ -9,6 +9,10 @@ var total = 0;
 var calculoPrecio = 0;
 let precioTotal = document.getElementById("precio");
 
+let pwd = document.getElementById("idPwd");
+let btnGestionAl = document.getElementById("confirmar");
+btnGestionAl.onclick = login;
+
 function inicio() {
   cargarContenido();
   console.log(objeto);
@@ -97,4 +101,10 @@ function eliminar(fila, calculo) {
   filaTabla.parentNode.remove(filaTabla);
   total = total - calculo;
   precioTotal.textContent = total;
+}
+
+function login() {
+  if (pwd.value == "frutas") {
+    window.open("http://127.0.0.1:5500/Crud_Back/index.html");
+  }
 }
