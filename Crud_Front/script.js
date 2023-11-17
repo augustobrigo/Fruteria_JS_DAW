@@ -4,7 +4,7 @@ cajaFrutas.innerHTML="";
 let bloqueHtml=document.createElement("div");
 let bloqueCesta=document.createElement("div");
 var objeto;
-let contenedorCesta=document.querySelector("tbody");
+let contenedorCesta=document.querySelector("#cestaCompra");
 
 function inicio(){
     cargarContenido();
@@ -17,7 +17,7 @@ function cargarFrutas(){
         vector.push(objeto[i].id, objeto[i].name, objeto[i].photo, objeto[i].price);
         bloqueHtml.innerHTML+=
         '<div class="col-lg-4">'+
-        '<img class="card-img-top" src='+objeto[i].photo+' width="90" height="90" alt='+objeto[i].id+'>'+
+        '<img class="card-img-top" onclick=anadirCesta("'+vector+'") src='+objeto[i].photo+' width="90" height="90" alt='+objeto[i].id+'>'+
         '<div class="card-body" onclick=anadirCesta("'+vector+'")>'+
         '<h4 class="card-title">'+objeto[i].name+'</h4>'+
         '<p class="card-text">'+objeto[i].price+'</p></div></div>';
@@ -43,9 +43,8 @@ function anadirCesta(vector){
     let calculoPrecio=peso*parseFloat(vectorX[3]);
 
     if(peso && !isNaN(peso)){
-        bloqueCesta.innerHTML='<td>'+
+        cajaTr.innerHTML='<td>'+
         vectorX[1]+'</td><td>'+peso+'</td><td>'+vectorX[3]+'</td><td>'+calculoPrecio+'</td>';
     }
-    cajaTr.appendChild(bloqueCesta);
     contenedorCesta.appendChild(cajaTr);
 }
