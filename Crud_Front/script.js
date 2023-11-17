@@ -36,7 +36,6 @@ function cargarFrutas() {
       '<p class="card-text">' +
       objeto[i].price +
       "</p></div></div>";
-     
   }
 
   cajaFrutas.appendChild(bloqueHtml);
@@ -76,8 +75,8 @@ function anadirCesta(vector) {
       vectorX[3] +
       "</td><td>" +
       calculoPrecio +
-      "</td>"+
-      "<td>"+ //simular botón con a href añado clase btn btn-danger (color rojo)
+      "</td>" +
+      "<td>" + //simular botón con a href añado clase btn btn-danger (color rojo)
       "<div class='col-lg-2 text-center mb-2'><a class='btn btn-danger btn-md'" +
       //anulo el href, no hay link , pero sí hay evento onclick con
       //parámetro incluido: dni de esa tupla
@@ -85,7 +84,14 @@ function anadirCesta(vector) {
       calculoPrecio +
       "')>" +
       //texto del botón e icono
-      "ELIMINAR<i class='bi-trash'></i></a></div> "+"</td>";
+      "ELIMINAR<i class='bi-trash'></i></a></div> " +
+      "</td>";
   }
   contenedorCesta.appendChild(cajaTr);
+}
+
+function eliminar(calculo) {
+    total = total - calculo;
+    precioTotal.textContent = total;
+
 }
