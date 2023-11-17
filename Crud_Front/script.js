@@ -80,7 +80,7 @@ function anadirCesta(vector) {
       "<div class='col-lg-2 text-center mb-2'><a class='btn btn-danger btn-md'" +
       //anulo el href, no hay link , pero sí hay evento onclick con
       //parámetro incluido: dni de esa tupla
-      " href='javascript:void(0)' onclick=eliminar('" +
+      " href='javascript:void(0)' onclick=eliminar(this,'" +
       calculoPrecio +
       "')>" +
       //texto del botón e icono
@@ -90,8 +90,11 @@ function anadirCesta(vector) {
   contenedorCesta.appendChild(cajaTr);
 }
 
-function eliminar(calculo) {
-    total = total - calculo;
-    precioTotal.textContent = total;
-
+function eliminar(fila, calculo) {
+  //Subir de nivel hasta llegar a elmento padre tabla
+  let filaTabla = fila.parentNode.parentNode;
+  //Subir un nivel más para coseguir el elemento tr de esa tabla y pasamos la tabla por parametro
+  filaTabla.parentNode.remove(filaTabla);
+  total = total - calculo;
+  precioTotal.textContent = total;
 }
