@@ -6,7 +6,7 @@ let bloqueCesta = document.createElement("div");
 var objeto;
 let contenedorCesta = document.querySelector("#cestaCompra");
 var total = 0;
-var calculoPrecio = 0;
+//var calculoPrecio = 0;
 let precioTotal = document.getElementById("precio");
 
 let pwd = document.getElementById("idPwd");
@@ -17,7 +17,7 @@ let btnEnviarM = document.getElementById("enviarMail");
 btnEnviarM.onclick = enviarMail;
 btnGestionAl.onclick = login;
 
-let vectorGlobal = [];
+let vectorFrutas = [];
 
 function inicio() {
   cargarContenido();
@@ -52,6 +52,21 @@ function mostrarPDF() {
 }
 
 function actualizarAlmacen(){
+    let infoCliente = prompt("DNI del cliente:");
+    for(let i = 0; i < vectorFrutas.length; i++){
+        let nombreFruta = vectorFrutas[i];
+
+        $.ajax({
+            url:"http://moralo.atwebpages.com/menuAjax/productos3/insertarFacturacion.php",
+            type:"POST",
+            data:{
+                preciototal:precioTotal,
+                name:nombreFruta,
+                info:infoCliente
+            },
+            dataType:"JSON"
+          });
+    }
 
 }
 
@@ -102,8 +117,9 @@ function anadirCesta(vector) {
   console.log(vector);
   let vectorX = vector.split(",");
   let kgs = prompt("Teclea los kgs de " + vectorX[1]);
-  calculoPrecio = kgs * parseFloat(vectorX[3]);
+  let calculoPrecio = kgs * parseFloat(vectorX[3]);
   let id = vectorX[0];
+  vectorFrutas.push(vectorX[1]);
 
   total = total + calculoPrecio;
   precioTotal.textContent = total;
@@ -147,11 +163,14 @@ function anadirCesta(vector) {
 }
 
 function eliminar(fila, id, calculo, peso) {
+  console.log("Calculo:"+calculo);
+
   //Subir de nivel hasta llegar a elmento padre tabla
   let filaTabla = fila.parentNode.parentNode;
   //Subir un nivel más para coseguir el elemento tr de esa tabla y pasamos la tabla por parametro
   filaTabla.parentNode.remove(filaTabla);
   total = total - calculo;
+  console.log(total);
   precioTotal.textContent = total;
 
   $.ajax({
