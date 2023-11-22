@@ -53,7 +53,7 @@ function cargarTabla(){
        }
      } 
       //PRIMERO HAY QUE HACER LA PETICIÓN
- xhr.open("GET"," http://moralo.atwebpages.com/menuAjax/productos/index.php",true);
+ xhr.open("GET","http://moralo.atwebpages.com/menuAjax/productos3/getProductos.php",true);
  xhr.send();
   
  tabla.appendChild(bloqueHtml);
@@ -68,7 +68,7 @@ function insertarUsuario(){
     let fotoTxt=document.querySelector("#txtFoto").value;
     console.log("insertando: "+idTxt)
     $.ajax({
-        url:"http://moralo.atwebpages.com/menuAjax/productos/create_product.php",
+        url:"http://moralo.atwebpages.com/menuAjax/productos3/insertarProductos.php",
         type:"POST",
         data:{
 // sintaxis: variablePHP : variableJs
@@ -90,7 +90,7 @@ function eliminar(id){
    
     $.ajax({
       //url del servicio
-      url:"http://moralo.atwebpages.com/menuAjax/productos/delete_product.php",
+      url:"http://moralo.atwebpages.com/menuAjax/productos3/eliminarProductos.php",
       //method
       type:"POST",
       data:{
@@ -119,7 +119,26 @@ function modificar(vector){
  $('#formclientesModal').modal("show");
  document.querySelector("#btnModificar").addEventListener("click",accionAjaxModificar);
  function accionAjaxModificar(){
-    console.log("modficar");
+    let id=document.querySelector("#txtId").value;
+    //alert(id);
+    let name=document.querySelector("#txtNombre").value;
+    let price=document.querySelector("#txtPrecio").value;
+    alert(price);
+    let photo=document.querySelector("#txtFoto").value;
+    $.ajax({
+        url:"http://moralo.atwebpages.com/menuAjax/productos3/modificarProductos.php",
+        type:"POST",
+        data:{
+// sintaxis: variablePHP : variableJs
+           id: id,
+           name: name,
+           price: price,
+           photo: photo
+        },
+        dataType:"JSON"
+        
+    });
+    location.reload();
  }
 
 }

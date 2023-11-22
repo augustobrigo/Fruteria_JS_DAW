@@ -17,12 +17,17 @@ let btnEnviarM = document.getElementById("enviarMail");
 btnEnviarM.onclick = enviarMail;
 btnGestionAl.onclick = login;
 
+let vectorGlobal = [];
+
 function inicio() {
   cargarContenido();
   console.log(objeto);
 }
 
 function mostrarPDF() {
+
+    actualizarAlmacen();
+
     let ticket1 = document.getElementById("cestaCompra").innerHTML;
     console.log(ticket1);
 
@@ -45,26 +50,9 @@ function mostrarPDF() {
     win.document.write('</body></html>');
     win.print();
 }
-// nziw rlls slvp nejm 
-function enviarMail() {
-    console.log("enviar")
-    alert("enviar mail");
-    Email.send({
-    Host: "smtp.gmail.com",
-    Username: "augustobrigaprofe@gmail.com",
-    Password: "nziwrllsslvpnejm",
-    To: 'profeaugustobriga@gmail.com',
-    From: 'augustobrigaprofe@gmail.com',
-    Subject: "Enviar mail usuario JS",
-    Body: "TODO OK!!",
-    // Attachments: [
-    // {
-    // name : "factura.pdf",
-    // path : pdfBase64
-    // }]
-    }).then(function () {
-    alert("MAIL ENVIADO OK")
-    }); 
+
+function actualizarAlmacen(){
+
 }
 
 function cargarFrutas() {
@@ -104,7 +92,7 @@ function cargarContenido() {
   };
   xhr.open(
     "GET",
-    "http://moralo.atwebpages.com/menuAjax/productos/index.php",
+    "http://moralo.atwebpages.com/menuAjax/productos3/getProductos.php",
     true
   );
   xhr.send();
@@ -113,18 +101,30 @@ function anadirCesta(vector) {
   let cajaTr = document.createElement("tr");
   console.log(vector);
   let vectorX = vector.split(",");
-  let peso = prompt("Teclea los kgs de " + vectorX[1]);
-  calculoPrecio = peso * parseFloat(vectorX[3]);
+  let kgs = prompt("Teclea los kgs de " + vectorX[1]);
+  calculoPrecio = kgs * parseFloat(vectorX[3]);
+  let id = vectorX[0];
 
   total = total + calculoPrecio;
   precioTotal.textContent = total;
 
-  if (peso && !isNaN(peso)) {
+  if (kgs && !isNaN(kgs)) {
+    
+    $.ajax({
+        url:"http://moralo.atwebpages.com/menuAjax/productos3/actualizarAlmacen.php",
+        type:"POST",
+        data:{
+            id:id,
+            kgs:kgs
+        },
+        dataType:"JSON"
+      });
+
     cajaTr.innerHTML =
       "<td>" +
       vectorX[1] +
       "</td><td>" +
-      peso +
+      kgs +
       "</td><td>" +
       vectorX[3] +
       "</td><td>" +
@@ -134,23 +134,36 @@ function anadirCesta(vector) {
       "<div class='col-lg-2 text-center mb-2'><a class='btn btn-danger btn-md'" +
       //anulo el href, no hay link , pero sí hay evento onclick con
       //parámetro incluido: dni de esa tupla
-      " href='javascript:void(0)' onclick=eliminar(this,'" +
-      calculoPrecio +
+      " href='javascript:void(0)' onclick=eliminar(this,'" + id +
+      calculoPrecio + kgs +
       "')>" +
       //texto del botón e icono
       "ELIMINAR<i class='bi-trash'></i></a></div> " +
       "</td>";
+
+ 
   }
   contenedorCesta.appendChild(cajaTr);
 }
 
-function eliminar(fila, calculo) {
+function eliminar(fila, id, calculo, peso) {
   //Subir de nivel hasta llegar a elmento padre tabla
   let filaTabla = fila.parentNode.parentNode;
   //Subir un nivel más para coseguir el elemento tr de esa tabla y pasamos la tabla por parametro
   filaTabla.parentNode.remove(filaTabla);
   total = total - calculo;
   precioTotal.textContent = total;
+
+  $.ajax({
+    url: "http://moralo.atwebpages.com/menuAjax/productos3/retornarAlmacen.php",
+    type: "POST",
+    data: {
+        id:id,
+        kgs:peso
+    },
+    dataType:"JSON"
+  });
+
 }
 
 function login() {
