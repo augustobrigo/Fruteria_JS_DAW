@@ -52,7 +52,7 @@ function mostrarPDF() {
 }
 
 function actualizarAlmacen(){
-    let infoCliente = prompt("DNI del cliente:");
+    let infoCliente = prompt("Nombre del cliente:");
     for(let i = 0; i < vectorFrutas.length; i++){
         let nombreFruta = vectorFrutas[i];
 
